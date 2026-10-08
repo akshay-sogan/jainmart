@@ -1,0 +1,189 @@
+.date-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+
+  >div:nth-child(1),
+  >div:nth-child(2) {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    label {
+      font-weight: 600;
+      color: #555;
+      white-space: nowrap;
+      min-width: 120px;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1em;
+      width: 300px;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="text"]::placeholder {
+      color: #aaa;
+    }
+
+    input[type="text"]:focus,
+    input[type="date"]:focus {
+      outline: none;
+      border-color: #4CAF50;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+    }
+  }
+
+  >div:nth-child(2) {
+    flex-direction: column;
+    align-items: flex-start;
+
+    label {
+      margin-bottom: 10px;
+    }
+
+    .date-input-group {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+
+      input[type="date"] {
+        flex: 1;
+      }
+
+      .add-date-btn {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+        white-space: nowrap;
+
+        &:hover {
+          background-color: #45a049;
+        }
+
+        &:active {
+          background-color: #3d8b40;
+        }
+      }
+    }
+  }
+
+  .selected-dates {
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+
+    .dates-label {
+      display: block;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 12px;
+      font-size: 0.95em;
+    }
+
+    .dates-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-left: 15px;
+
+      .date-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 12px;
+        background-color: #e8f5e9;
+        border: 1px solid #4CAF50;
+        border-radius: 4px;
+
+        .date-text {
+          font-weight: 500;
+          color: #333;
+          flex: 1;
+        }
+
+        .remove-date-btn {
+          background: none;
+          border: none;
+          font-size: 1.3em;
+          cursor: pointer;
+          color: #d32f2f;
+          padding: 0 5px;
+          transition: color 0.2s ease;
+
+          &:hover {
+            color: #b71c1c;
+          }
+        }
+      }
+    }
+  }
+}
+
+.customer-section {
+  color: #302c22;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding: 25px;
+  background: #f2eadc;
+  border: 1px solid #e4dacb;
+}
+
+.details-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  color: #615749;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.details-grid input,
+.details-grid textarea {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 13px 14px;
+  border: 1px solid #d8ccbb;
+  border-radius: 2px;
+  background: #fffaf1;
+  color: #302c22;
+  font: 14px Georgia, serif;
+  resize: vertical;
+}
+
+.details-grid input:focus,
+.details-grid textarea:focus {
+  outline: 2px solid rgba(215, 93, 63, .25);
+  border-color: #d75d3f;
+}
+
+.details-grid .full-width {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 600px) {
+  .details-grid {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .details-grid .full-width {
+    grid-column: auto;
+  }
+}

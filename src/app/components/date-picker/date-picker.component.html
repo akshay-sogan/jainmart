@@ -1,0 +1,17 @@
+<section class="customer-section">
+    <div class="section-heading">
+        <div><span class="eyebrow">Almost there</span>
+            <h2>Delivery details</h2>
+        </div>
+        <span class="required-note">All fields help us confirm your order</span>
+    </div>
+    <div class="details-grid">
+        <label><span>Your name</span><input type="text" [ngModel]="clientName"
+                (ngModelChange)="updateClientName($event)" placeholder="e.g. Madhuram Shah" /></label>
+        <label><span>WhatsApp number</span><input type="tel" [ngModel]="phone" (ngModelChange)="updatePhone($event)"
+                placeholder="e.g. 98765 43210" /></label>
+        <label class="full-width"><span>Delivery address</span><textarea [ngModel]="address"
+                (ngModelChange)="updateAddress($event)" rows="3"
+                placeholder="Flat, street, landmark and area"></textarea></label>
+    </div>
+</section>

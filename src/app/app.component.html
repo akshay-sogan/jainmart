@@ -1,0 +1,129 @@
+<app-login-page *ngIf="!isLoggedIn" (loggedIn)="login($event)"></app-login-page>
+<section class="manager-shell" *ngIf="isLoggedIn && isManagerUser">
+  <header class="manager-header"><a class="brand" href="#" aria-label="jain Mart home"><span
+        class="brand-mark">J</span><span>jain <b>mart</b></span></a>
+    <div class="manager-account"><span>{{ currentUser }}</span><button class="logout-button" type="button"
+        (click)="logout()">Log out</button></div>
+  </header>
+  <main class="manager-main"><span class="eyebrow">Admin workspace</span>
+    <h1>Manage your catalog.</h1>
+    <p>Add products and set the prices customers will see in Jain Mart.</p><app-product-manager
+      (productCreated)="addProduct($event)"></app-product-manager>
+  </main>
+</section>
+<div class="app-shell" *ngIf="isLoggedIn">
+  <header class="site-header"><a class="brand" href="#top" aria-label="jain Mart home"><span
+        class="brand-mark">J</span><span>jain <b>mart</b></span></a>
+    <div class="delivery-note"><span class="pin">+</span><span><small>Delivering to</small><strong>Govardhan,
+          Mathura</strong></span></div><span class="current-user">{{ currentUser }}</span><button class="logout-button"
+      type="button" (click)="logout()">Log out</button><button class="cart-button" type="button"
+      (click)="cartOpen = !cartOpen" aria-label="Open shopping cart">Cart <span>{{ selectionService.getCartCount()
+        }}</span></button>
+  </header>
+  <main id="top">
+    <section class="hero container">
+      <div class="hero-copy"><span class="eyebrow">Groceries at your doorstep</span>
+        <h1>Fresh picks.<br /><em>Fast delivery.</em></h1>
+        <p>Your neighbourhood store, now one tap away. Shop everyday essentials and get them delivered while they are
+          still fresh.</p>
+        <div class="hero-actions"><a class="primary-action" href="#shop">Shop groceries <span>-></span></a><span
+            class="delivery-badge"><b>20 min</b> average delivery</span></div>
+      </div>
+      <div class="hero-art">
+        <div class="art-label">Good food<br /><strong>starts here.</strong></div>
+        <div class="art-circle"></div>
+        <div class="art-leaf leaf-one"></div>
+        <div class="art-leaf leaf-two"></div>
+      </div>
+    </section>
+    <section class="trust-strip">
+      <div class="container trust-items"><span><b>01</b> Fresh every day</span><span><b>02</b> Honest
+          prices</span><span><b>03</b> Secure checkout</span><span><b>04</b> Local delivery</span></div>
+    </section>
+    <section id="shop" class="shop-section container">
+      <div class="shop-heading">
+        <div><span class="eyebrow">The jain edit</span>
+          <h2>What are you shopping for?</h2>
+        </div>
+        <div class="search-wrap"><span>/</span><input type="search" [(ngModel)]="searchTerm"
+            placeholder="Search groceries" aria-label="Search groceries" /></div>
+      </div>
+      <nav class="category-nav" aria-label="Product categories"><button *ngFor="let category of categories"
+          type="button" [class.active]="activeCategory === category" (click)="activeCategory = category">{{ category
+          }}</button></nav>
+      <p class="empty-state" role="status" *ngIf="catalogMessage">{{ catalogMessage }}</p>
+      <div class="product-grid">
+        <article class="product-card" *ngFor="let product of filteredProducts">
+          <div class="product-image"><img [src]="productImages[product.id]" [alt]="product.name" /><span
+              class="category-tag">{{ product.category }}</span></div>
+          <div class="product-info">
+            <div class="product-title">
+              <h3>{{ product.name }}</h3><span>{{ product.unit }}</span>
+            </div>
+            <p>{{ product.description }}</p>
+            <div class="product-footer"><strong>Rs. {{ product.price }}</strong><button type="button" class="add-button"
+                [class.added]="addedItemId === product.id" (click)="addItem(product)">{{ addedItemId === product.id ?
+                'Added' : '+ Add' }}</button></div>
+          </div>
+        </article>
+      </div>
+      <div class="empty-state" *ngIf="filteredProducts.length === 0">No groceries found. Try another search.</div>
+    </section>
+  </main>
+  <aside class="cart-drawer" [class.open]="cartOpen" aria-label="Shopping cart">
+    <div class="cart-header">
+      <div><span class="eyebrow">Your basket</span>
+        <h2>Ready to checkout?</h2>
+      </div><button class="close-button" type="button" (click)="cartOpen = false" aria-label="Close cart">x</button>
+    </div>
+    <div class="cart-content" *ngIf="cartItems.length; else emptyCart">
+      <div class="cart-line" *ngFor="let cartItem of cartItems">
+        <div><strong>{{ cartItem.item.name }}</strong><small>Rs. {{ cartItem.item.price }} each</small></div>
+        <div class="quantity"><button type="button"
+            (click)="updateQuantity(cartItem.item.id, cartItem.quantity - 1)">-</button><span>{{ cartItem.quantity
+            }}</span><button type="button" (click)="updateQuantity(cartItem.item.id, cartItem.quantity + 1)">+</button>
+        </div>
+      </div>
+    </div><ng-template #emptyCart>
+      <div class="empty-cart"><span>+</span>
+        <p>Your basket is waiting.<br />Add something fresh.</p>
+      </div>
+    </ng-template>
+    <div class="cart-summary" *ngIf="cartItems.length">
+      <div><span>Subtotal</span><strong>Rs. {{ selectionService.getCartTotal() }}</strong></div><small>Delivery is free
+        on orders over Rs. 299</small><button class="checkout-button" type="button" (click)="openCheckout()">Checkout
+        securely
+        <span>-></span></button>
+    </div>
+  </aside>
+  <div class="drawer-backdrop" [class.visible]="cartOpen" (click)="cartOpen = false"></div>
+  <div class="checkout-overlay" *ngIf="checkoutOpen">
+    <section class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+      <button class="checkout-close" type="button" (click)="closeCheckout()" aria-label="Close checkout">x</button>
+      <ng-container *ngIf="!orderPlaced; else orderConfirmation">
+        <span class="eyebrow">Secure order details</span>
+        <h2 id="checkout-title">Where should we deliver?</h2>
+        <p class="checkout-intro">Add your details and we will prepare your jain Mart order for delivery.</p>
+        <form class="checkout-form" (ngSubmit)="placeOrder()">
+          <label>Full name<input type="text" name="customerName" [(ngModel)]="customerName"
+              placeholder="Your name" /></label>
+          <label>Phone number<input type="tel" name="customerPhone" [(ngModel)]="customerPhone"
+              placeholder="10-digit phone number" /></label>
+          <label>Delivery address<textarea name="customerAddress" [(ngModel)]="customerAddress" rows="3"
+              placeholder="House, street, area"></textarea></label>
+          <p class="checkout-error" *ngIf="checkoutMessage">{{ checkoutMessage }}</p>
+          <button class="confirm-button" type="submit">Confirm order <span>-></span></button>
+        </form>
+      </ng-container>
+      <ng-template #orderConfirmation>
+        <div class="order-confirmation"><span class="confirmation-mark">+</span><span class="eyebrow">Order
+            received</span>
+          <h2>Thanks, {{ customerName }}.</h2>
+          <p>Your basket is confirmed. We will contact you at {{ customerPhone }} about delivery.</p><button
+            class="confirm-button" type="button" (click)="closeCheckout()">Continue shopping <span>-></span></button>
+        </div>
+      </ng-template>
+    </section>
+  </div>
+  <footer><span>jain mart</span><span>Freshness, delivered.</span><span>Made for Govardhan</span></footer>
+</div>

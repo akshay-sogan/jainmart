@@ -1,0 +1,29 @@
+<aside class="cart-panel">
+  <div class="cart-header">
+    <div><span class="eyebrow">Your basket</span>
+      <h2>Ready when you are</h2>
+    </div>
+    <span class="cart-count">{{ selectionService.getCartCount() }}</span>
+  </div>
+  <div class="empty-cart" *ngIf="selectionService.getCart().length === 0">Add a few pantry favourites to see them here.
+  </div>
+  <div class="cart-items" *ngIf="selectionService.getCart().length > 0">
+    <div *ngFor="let cartItem of selectionService.getCart()" class="cart-item">
+      <div><strong>{{ cartItem.item.name }}</strong><span>₹{{ cartItem.item.price }} / {{ cartItem.item.unit }}</span>
+      </div>
+      <div class="quantity-control">
+        <button type="button"
+          (click)="selectionService.updateQuantity(cartItem.item.id, cartItem.quantity - 1)">−</button>
+        <span>{{ cartItem.quantity }}</span>
+        <button type="button"
+          (click)="selectionService.updateQuantity(cartItem.item.id, cartItem.quantity + 1)">+</button>
+      </div>
+    </div>
+  </div>
+  <div class="cart-footer" *ngIf="selectionService.getCart().length > 0">
+    <div class="total-row"><span>Total</span><strong>₹{{ selectionService.getCartTotal() }}</strong></div>
+    <button type="button" class="checkout-button" (click)="checkoutOnWhatsApp()">Order on WhatsApp
+      <span>↗</span></button>
+    <small>Your order opens as a ready-to-send WhatsApp message.</small>
+  </div>
+</aside>

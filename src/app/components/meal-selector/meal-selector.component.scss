@@ -1,0 +1,315 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+:host ::ng-deep h3 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.3em;
+  font-weight: 600;
+  color: #333;
+}
+
+.meal-item {
+  margin-bottom: 25px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  .meal-header {
+    margin: 0 0 20px 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #333;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0;
+  }
+
+  .meal-details {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .guests-input {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      label {
+        font-weight: 500;
+        white-space: nowrap;
+        color: #555;
+        min-width: 80px;
+      }
+
+      input[type="number"] {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+        width: 150px;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+          outline: none;
+          border-color: #4CAF50;
+          box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+      }
+    }
+
+    .meal-items {
+      padding-left: 0;
+
+      .items-label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #555;
+        font-size: 1em;
+      }
+
+      .items-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding-left: 15px;
+        margin-bottom: 15px;
+
+        .item-checkbox {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          padding: 8px 10px;
+          border-radius: 4px;
+          transition: background-color 0.2s ease;
+          width: fit-content;
+          user-select: none;
+
+          &:hover {
+            background-color: #e8f5e9;
+          }
+
+          input[type="checkbox"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: #4CAF50;
+          }
+        }
+      }
+
+      .custom-items {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding-left: 15px;
+        margin-bottom: 15px;
+        padding-top: 10px;
+        border-top: 1px solid #e0e0e0;
+
+        .custom-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px 10px;
+          background-color: #fff3cd;
+          border: 1px solid #ffc107;
+          border-radius: 4px;
+
+          .custom-item-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            flex: 1;
+            user-select: none;
+
+            input[type="checkbox"] {
+              cursor: pointer;
+              width: 16px;
+              height: 16px;
+              accent-color: #4CAF50;
+              margin: 0;
+            }
+
+            .custom-item-text {
+              font-weight: 500;
+              color: #333;
+            }
+          }
+
+          .remove-btn {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #d32f2f;
+            padding: 0 5px;
+            transition: color 0.2s ease;
+
+            &:hover {
+              color: #b71c1c;
+            }
+          }
+        }
+      }
+
+      .custom-item-input {
+        display: flex;
+        gap: 10px;
+        padding-left: 15px;
+        padding-top: 10px;
+        border-top: 1px solid #e0e0e0;
+
+        input[type="text"] {
+          flex: 1;
+          max-width: 300px;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          font-size: 1em;
+          transition: border-color 0.3s ease;
+
+          &::placeholder {
+            color: #aaa;
+          }
+
+          &:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+          }
+        }
+
+        .add-btn {
+          padding: 10px 20px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-weight: 500;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: #45a049;
+          }
+
+          &:active {
+            background-color: #3d8b40;
+          }
+        }
+      }
+    }
+  }
+}
+
+.catalog-section {
+  color: #302c22;
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.item-card {
+  min-height: 220px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  background: #fffaf1;
+  border: 1px solid #e4dacb;
+  border-radius: 3px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(75, 59, 40, .09);
+}
+
+.item-card-top,
+.item-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.item-category {
+  color: #d75d3f;
+  font: 700 10px 'Trebuchet MS', sans-serif;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.item-unit {
+  color: #998d7c;
+  font-size: 12px;
+}
+
+.item-card h3 {
+  margin: 36px 0 8px;
+  font: 500 23px Georgia, serif;
+}
+
+.item-card p {
+  min-height: 45px;
+  margin: 0 0 24px;
+  color: #81776a;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.item-card-bottom {
+  margin-top: auto;
+}
+
+.item-card-bottom strong {
+  color: #302c22;
+  font: 700 20px Georgia, serif;
+}
+
+.add-button {
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid #d75d3f;
+  border-radius: 2px;
+  color: #d75d3f;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.add-button:hover {
+  background: #d75d3f;
+  color: #fffaf1;
+}
+
+.add-button span {
+  padding-left: 8px;
+  font-size: 16px;
+}
+
+@media (max-width: 800px) {
+  .items-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .items-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .item-card {
+    min-height: 190px;
+  }
+}

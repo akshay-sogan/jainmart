@@ -1,0 +1,6 @@
+<div>
+  <label for="peopleCount">Number of People:</label>
+  <button type="button" (click)="decrement()" [disabled]="count <= 1">-</button>
+  <input type="number" id="peopleCount" [(ngModel)]="count" min="1" />
+  <button type="button" (click)="increment()">+</button>
+</div>

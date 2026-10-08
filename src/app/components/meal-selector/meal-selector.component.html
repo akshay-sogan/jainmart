@@ -1,0 +1,18 @@
+<section class="catalog-section">
+  <div class="section-heading">
+    <div><span class="eyebrow">The pantry edit</span>
+      <h2>Choose your essentials</h2>
+    </div>
+    <span class="item-count">{{ items.length }} items</span>
+  </div>
+  <div class="items-grid">
+    <article *ngFor="let item of items" class="item-card">
+      <div class="item-card-top"><span class="item-category">{{ item.category }}</span><span class="item-unit">{{
+          item.unit }}</span></div>
+      <h3>{{ item.name }}</h3>
+      <p>{{ item.description }}</p>
+      <div class="item-card-bottom"><strong>₹{{ item.price }}</strong><button type="button" class="add-button"
+          (click)="addItem(item)">Add <span>+</span></button></div>
+    </article>
+  </div>
+</section>

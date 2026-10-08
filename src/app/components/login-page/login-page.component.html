@@ -1,0 +1,26 @@
+<main class="login-page">
+    <section class="login-art">
+        <a class="login-brand" href="#" aria-label="Jain Mart home"><span>J</span> jain <b>mart</b></a>
+        <div class="login-art-copy"><span class="eyebrow">Good food, close to home</span>
+            <h1>Freshness<br /><em>starts here.</em></h1>
+            <p>Your neighbourhood grocery store, ready when you are.</p>
+        </div>
+        <div class="login-shape"></div>
+    </section>
+    <section class="login-panel">
+        <div class="login-form-wrap">
+            <span class="eyebrow">Welcome back</span>
+            <h2>Sign in to Jain Mart</h2>
+            <p class="login-intro">Sign in to shop groceries and manage your catalog.</p>
+            <form (ngSubmit)="login()">
+                <label>User ID<input type="text" name="userId" [(ngModel)]="userId" placeholder="Enter your user ID"
+                        autocomplete="username" /></label>
+                <label>Password<input type="password" name="password" [(ngModel)]="password"
+                        placeholder="Enter your password" autocomplete="current-password" /></label>
+                <p class="login-message" *ngIf="message">{{ message }}</p>
+                <button class="login-button" type="submit">Continue <span>-></span></button>
+            </form>
+            <small class="login-note">Use your registered account to continue.</small>
+        </div>
+    </section>
+</main>

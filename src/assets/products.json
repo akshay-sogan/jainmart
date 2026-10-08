@@ -1,0 +1,66 @@
+[
+    {
+        "id": "farm-bananas",
+        "name": "Farm bananas",
+        "category": "Fresh produce",
+        "description": "Naturally sweet, hand-picked and ready for breakfast.",
+        "price": 48,
+        "unit": "1 kg"
+    },
+    {
+        "id": "tomatoes",
+        "name": "Red tomatoes",
+        "category": "Fresh produce",
+        "description": "Juicy everyday tomatoes from nearby farms.",
+        "price": 42,
+        "unit": "500 g"
+    },
+    {
+        "id": "full-cream-milk",
+        "name": "Full cream milk",
+        "category": "Dairy & eggs",
+        "description": "Fresh dairy goodness delivered cold to your door.",
+        "price": 34,
+        "unit": "500 ml"
+    },
+    {
+        "id": "farm-eggs",
+        "name": "Farm fresh eggs",
+        "category": "Dairy & eggs",
+        "description": "Protein-rich brown eggs for your everyday meals.",
+        "price": 78,
+        "unit": "6 pack"
+    },
+    {
+        "id": "basmati-rice",
+        "name": "Classic basmati rice",
+        "category": "Pantry",
+        "description": "Long-grain rice with a fragrant, fluffy finish.",
+        "price": 120,
+        "unit": "1 kg"
+    },
+    {
+        "id": "toor-dal",
+        "name": "Toor dal",
+        "category": "Pantry",
+        "description": "Everyday split pigeon peas for comforting dal.",
+        "price": 145,
+        "unit": "1 kg"
+    },
+    {
+        "id": "masala-chips",
+        "name": "Masala chips",
+        "category": "Snacks",
+        "description": "Crisp, spiced potato bites for little breaks.",
+        "price": 35,
+        "unit": "100 g"
+    },
+    {
+        "id": "jaggery",
+        "name": "Organic jaggery",
+        "category": "Pantry",
+        "description": "Rich, unrefined sweetness for desserts and chai.",
+        "price": 110,
+        "unit": "500 g"
+    }
+]

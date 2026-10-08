@@ -1,0 +1,9 @@
+# Dependencies
+/node_modules/
+
+# Angular cache and build outputs
+/.angular/
+/dist/
+/tmp/
+/out-tsc/
+/bazel-out/

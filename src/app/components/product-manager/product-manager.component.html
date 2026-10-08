@@ -1,0 +1,37 @@
+<section class="product-manager">
+    <div class="manager-intro">
+        <span class="eyebrow">Store manager</span>
+        <h2>Add a product</h2>
+        <p>Keep the jain Mart catalog fresh with your own products and prices.</p>
+    </div>
+    <form class="product-form" (ngSubmit)="addProduct()">
+        <label>
+            Product name
+            <input type="text" name="productName" [(ngModel)]="productName" placeholder="e.g. Green apples" required />
+        </label>
+        <label>
+            Category
+            <select name="category" [(ngModel)]="category">
+                <option *ngFor="let option of categories" [value]="option">{{ option }}</option>
+            </select>
+        </label>
+        <label>
+            Price (Rs.)
+            <input type="number" name="price" [(ngModel)]="price" min="1" step="1" placeholder="120" required />
+        </label>
+        <label>
+            Unit
+            <select name="unit" [(ngModel)]="unit">
+                <option *ngFor="let option of units" [value]="option">{{ option }}</option>
+            </select>
+        </label>
+        <label class="description-field">
+            Short description <span>optional</span>
+            <input type="text" name="description" [(ngModel)]="description"
+                placeholder="A little detail shoppers will appreciate" />
+        </label>
+        <button type="submit" class="manager-submit" [disabled]="saving">{{ saving ? 'Saving...' : 'Add to catalog' }}
+            <span *ngIf="!saving">+</span></button>
+    </form>
+    <p class="manager-message" *ngIf="message">{{ message }}</p>
+</section>

@@ -1,0 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Trebuchet MS', sans-serif;
+  background: #fbfaf5;
+  color: #193f32;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}

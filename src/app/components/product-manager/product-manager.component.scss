@@ -1,0 +1,135 @@
+:host {
+    display: block;
+}
+
+.product-manager {
+    width: min(1180px, calc(100% - 64px));
+    margin: 50px auto 0;
+    display: grid;
+    grid-template-columns: 1fr 2.2fr;
+    gap: 28px;
+    padding: 28px;
+    background: #f3ead2;
+    border-left: 4px solid #ef704f;
+}
+
+.manager-intro h2 {
+    margin: 8px 0 10px;
+    color: #193f32;
+    font: 500 28px/1 Georgia, serif;
+}
+
+.manager-intro p {
+    max-width: 260px;
+    margin: 0;
+    color: #687a6c;
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.product-form {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    align-items: end;
+    gap: 14px;
+}
+
+.product-form label {
+    display: grid;
+    gap: 7px;
+    color: #687a6c;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.product-form label span {
+    color: #9aa79b;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.product-form input,
+.product-form select {
+    width: 100%;
+    min-width: 0;
+    padding: 11px 10px;
+    color: #193f32;
+    background: #fbfaf5;
+    border: 1px solid #cfd9cd;
+    border-radius: 0;
+    outline: 0;
+    font: 13px 'Trebuchet MS', sans-serif;
+}
+
+.product-form input:focus,
+.product-form select:focus {
+    border-color: #ef704f;
+}
+
+.description-field {
+    grid-column: span 2;
+}
+
+.manager-submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 40px;
+    padding: 10px 12px;
+    color: #fbfaf5;
+    background: #193f32;
+    border: 0;
+    font: 700 12px 'Trebuchet MS', sans-serif;
+}
+
+.manager-submit span {
+    color: #f5bb58;
+    font-size: 18px;
+}
+
+.manager-message {
+    grid-column: 2;
+    margin: -4px 0 0;
+    color: #ef704f;
+    font-size: 11px;
+}
+
+@media (max-width: 800px) {
+    .product-manager {
+        width: min(100% - 40px, 600px);
+    }
+
+    .product-manager {
+        grid-template-columns: 1fr;
+    }
+
+    .manager-intro p {
+        max-width: 440px;
+    }
+
+    .product-form {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .manager-message {
+        grid-column: 1;
+    }
+}
+
+@media (max-width: 540px) {
+    .product-manager {
+        padding: 20px;
+    }
+
+    .product-form {
+        grid-template-columns: 1fr;
+    }
+
+    .description-field {
+        grid-column: auto;
+    }
+}
