@@ -11,9 +11,11 @@
         </label>
         <label>
             Category
-            <select name="category" [(ngModel)]="category">
-                <option *ngFor="let option of categories" [value]="option">{{ option }}</option>
-            </select>
+            <input type="text" name="category" [(ngModel)]="category" list="product-categories"
+                placeholder="Enter a category" required />
+            <datalist id="product-categories">
+                <option *ngFor="let option of categories" [value]="option"></option>
+            </datalist>
         </label>
         <label>
             Price (Rs.)

@@ -10,6 +10,7 @@
     <span class="eyebrow">Admin workspace</span>
     <h1>Manage your catalog.</h1>
     <p>Add products and set the prices customers will see in Jain Mart.</p><app-product-manager
+      [categories]="productCategories"
       (productCreated)="addProduct($event)"></app-product-manager>
   </main>
 </section>
@@ -54,11 +55,16 @@
       <nav class="category-nav" aria-label="Product categories"><button *ngFor="let category of categories"
           type="button" [class.active]="activeCategory === category" (click)="activeCategory = category">{{ category
           }}</button></nav>
-      <p class="empty-state" role="status" *ngIf="catalogMessage">{{ catalogMessage }}</p>
+      <div class="empty-state" role="status" *ngIf="isLoadingProducts">Loading products...</div>
+      <div class="empty-state" role="alert" *ngIf="catalogMessage">{{ catalogMessage }}
+        <button type="button" (click)="loadProducts()">Retry</button>
+      </div>
       <div class="product-grid">
         <article class="product-card" *ngFor="let product of filteredProducts">
-          <div class="product-image"><img [src]="productImages[product.id]" [alt]="product.name" /><span
-              class="category-tag">{{ product.category }}</span></div>
+          <div class="product-image" role="img" [attr.aria-label]="product.name">
+            <span class="product-placeholder" aria-hidden="true">{{ product.name.charAt(0).toUpperCase() }}</span>
+            <span class="category-tag">{{ product.category }}</span>
+          </div>
           <div class="product-info">
             <div class="product-title">
               <h3>{{ product.name }}</h3><span>{{ product.unit }}</span>
@@ -70,7 +76,9 @@
           </div>
         </article>
       </div>
-      <div class="empty-state" *ngIf="filteredProducts.length === 0">No groceries found. Try another search.</div>
+      <div class="empty-state" *ngIf="!isLoadingProducts && !catalogMessage && filteredProducts.length === 0">
+        No groceries found. Try another search.
+      </div>
     </section>
   </main>
   <aside class="cart-drawer" [class.open]="cartOpen" aria-label="Shopping cart">

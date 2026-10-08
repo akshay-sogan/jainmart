@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { AuthUser } from './models/auth.model';
 import { AuthService } from './services/auth.service';
 import { GlossaryItem } from './models/selection.model';
@@ -29,15 +28,11 @@ export class AppComponent implements OnInit {
   checkoutMessage = '';
   addedItemId = '';
   catalogMessage = '';
-  readonly categories = ['All', 'Fresh produce', 'Dairy & eggs', 'Pantry', 'Snacks'];
+  isLoadingProducts = true;
   products: GlossaryItem[] = [];
-  readonly productImages: { [id: string]: string } = {
-    'farm-bananas': 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=700&q=80', tomatoes: 'https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=700&q=80', 'full-cream-milk': 'https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=700&q=80', 'farm-eggs': 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=700&q=80', 'basmati-rice': 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=700&q=80', 'toor-dal': 'https://images.unsplash.com/photo-1612708399807-7b1d0e1d3b10?auto=format&fit=crop&w=700&q=80', 'masala-chips': 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&fit=crop&w=700&q=80', jaggery: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=700&q=80'
-  };
 
   constructor(
     public selectionService: SelectionService,
-    private http: HttpClient,
     private productCatalog: ProductCatalogService,
     private authService: AuthService
   ) { }
@@ -47,14 +42,20 @@ export class AppComponent implements OnInit {
       next: (user) => this.login(user),
       error: () => this.isCheckingSession = false
     });
+    this.loadProducts();
+  }
+
+  loadProducts(): void {
+    this.isLoadingProducts = true;
+    this.catalogMessage = '';
     this.productCatalog.getProducts().subscribe({
-      next: (products) => this.products = products,
+      next: (products) => {
+        this.products = products;
+        this.isLoadingProducts = false;
+      },
       error: () => {
-        this.catalogMessage = 'Could not reach the catalog API. Showing the bundled catalog; product changes cannot be saved.';
-        this.http.get<GlossaryItem[]>('assets/products.json').subscribe({
-          next: (products) => this.products = products,
-          error: () => this.catalogMessage = 'Products could not be loaded. Please refresh and try again.'
-        });
+        this.isLoadingProducts = false;
+        this.catalogMessage = 'Products could not be loaded from the catalog API. Check the backend connection and try again.';
       }
     });
   }
@@ -84,6 +85,14 @@ export class AppComponent implements OnInit {
 
   get isManagerUser(): boolean {
     return this.currentRole === 'ADMIN';
+  }
+
+  get categories(): string[] {
+    return ['All', ...Array.from(new Set(this.products.map((product) => product.category)))];
+  }
+
+  get productCategories(): string[] {
+    return Array.from(new Set(this.products.map((product) => product.category)));
   }
 
   get filteredProducts(): GlossaryItem[] {
@@ -146,10 +155,9 @@ export class AppComponent implements OnInit {
     this.checkoutOpen = false;
     this.orderPlaced = false;
   }
-
   addProduct(product: GlossaryItem): void {
     this.products = [product, ...this.products];
-    this.productImages[product.id] = 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=700&q=80';
+    this.products = [product, ...this.products];
     this.activeCategory = 'All';
   }
 }
