@@ -24,7 +24,10 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     public AuthResponse signUp(@Valid @RequestBody SignUpRequest request, HttpServletRequest httpRequest) {
         AuthResponse user = authService.signUp(request);
-        startSession(httpRequest, user);
+        HttpSession existingSession = httpRequest.getSession(false);
+        if (existingSession != null) {
+            existingSession.invalidate();
+        }
         return user;
     }
 

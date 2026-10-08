@@ -1,0 +1,108 @@
+.shopkeeper-manager {
+    margin-top: 52px;
+    padding-top: 34px;
+    border-top: 1px solid #e5e8df;
+}
+
+.shopkeeper-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.shopkeeper-heading h2 {
+    margin: 8px 0;
+    font: 500 34px/1 Georgia, serif;
+}
+
+.shopkeeper-heading p,
+.shopkeeper-manager>p {
+    color: #75877a;
+    font-size: 13px;
+}
+
+.shopkeeper-heading button,
+.shopkeeper-manager li button {
+    padding: 10px 14px;
+    color: #fbfaf5;
+    background: #193f32;
+    border: 0;
+    font-weight: 700;
+}
+
+.shopkeeper-manager button:disabled {
+    opacity: .6;
+}
+
+.shopkeeper-manager ul {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid #e5e8df;
+}
+
+.shopkeeper-manager li {
+    padding: 16px 0;
+    border-bottom: 1px solid #e5e8df;
+}
+
+.shopkeeper-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.shopkeeper-manager li strong,
+.shopkeeper-manager li small {
+    display: block;
+}
+
+.shopkeeper-manager li small {
+    margin-top: 5px;
+    color: #75877a;
+}
+
+.shopkeeper-actions {
+    display: flex;
+    flex-shrink: 0;
+    gap: 8px;
+}
+
+.shopkeeper-manager li button.view-products-button {
+    color: #193f32;
+    background: #f3ead2;
+}
+
+.shopkeeper-products {
+    margin-top: 18px;
+    padding: 18px;
+    background: #fbfaf5;
+    border-left: 3px solid #ef704f;
+}
+
+.shopkeeper-products h3 {
+    margin: 0 0 12px;
+    color: #193f32;
+    font: 500 20px Georgia, serif;
+}
+
+.shopkeeper-products ul {
+    margin: 12px 0 0;
+}
+
+.shopkeeper-products li {
+    padding: 12px 0;
+}
+
+.shopkeeper-manager .shopkeeper-message {
+    color: #a7412c;
+}
+
+@media (max-width: 600px) {
+    .shopkeeper-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

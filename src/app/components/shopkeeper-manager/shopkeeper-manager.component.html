@@ -1,0 +1,52 @@
+<section class="shopkeeper-manager" aria-label="Shopkeeper management">
+    <div class="shopkeeper-heading">
+        <div>
+            <span class="eyebrow">Marketplace access</span>
+            <h2>Shopkeepers</h2>
+            <p>Approve new stores or pause access for an existing shopkeeper.</p>
+        </div>
+        <button type="button" (click)="loadShopkeepers()" [disabled]="loading">Refresh</button>
+    </div>
+    <p class="shopkeeper-message" *ngIf="message" role="alert">{{ message }}</p>
+    <p *ngIf="loading">Loading shopkeepers...</p>
+    <p *ngIf="!loading && shopkeepers.length === 0">No shopkeeper accounts yet.</p>
+    <ul *ngIf="!loading && shopkeepers.length">
+        <li *ngFor="let shopkeeper of shopkeepers">
+            <div class="shopkeeper-row">
+                <span>
+                    <strong>{{ shopkeeper.name }}</strong>
+                    <small>{{ shopkeeper.email }} · {{ shopkeeper.mobileNumber || 'Mobile not provided' }} ·
+                        {{ shopkeeper.enabled ? 'Active' : 'Disabled / awaiting activation' }}</small>
+                </span>
+                <span class="shopkeeper-actions">
+                    <button type="button" class="view-products-button"
+                        (click)="showProducts(shopkeeper)">
+                        {{ selectedShopkeeper?.id === shopkeeper.id ? 'Hide products' : 'View products' }}
+                    </button>
+                    <button type="button" [disabled]="savingId === shopkeeper.id"
+                        (click)="setEnabled(shopkeeper)">
+                        {{ savingId === shopkeeper.id ? 'Saving...' : (shopkeeper.enabled ? 'Disable' : 'Activate') }}
+                    </button>
+                </span>
+            </div>
+            <section class="shopkeeper-products" *ngIf="selectedShopkeeper?.id === shopkeeper.id"
+                [attr.aria-label]="shopkeeper.name + ' products'">
+                <h3>Products from {{ shopkeeper.name }}</h3>
+                <p *ngIf="productsLoading" role="status">Loading products...</p>
+                <p class="shopkeeper-message" *ngIf="productsMessage" role="alert">{{ productsMessage }}</p>
+                <p *ngIf="!productsLoading && !productsMessage && shopkeeperProducts.length === 0">
+                    This shopkeeper has not added any products yet.
+                </p>
+                <ul *ngIf="!productsLoading && shopkeeperProducts.length">
+                    <li *ngFor="let product of shopkeeperProducts">
+                        <span>
+                            <strong>{{ product.name }}</strong>
+                            <small>{{ product.category }} · Rs. {{ product.price }} / {{ product.unit }}</small>
+                            <small>{{ product.description }}</small>
+                        </span>
+                    </li>
+                </ul>
+            </section>
+        </li>
+    </ul>
+</section>

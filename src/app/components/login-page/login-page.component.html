@@ -11,12 +11,22 @@
         <div class="login-form-wrap">
             <span class="eyebrow">{{ isSignUp ? 'Join jain mart' : 'Welcome back' }}</span>
             <h2>{{ isSignUp ? 'Create your account' : 'Sign in to Jain Mart' }}</h2>
-            <p class="login-intro">{{ isSignUp ? 'Create an account to start shopping.' : 'Sign in to continue shopping.' }}</p>
+            <p class="login-intro">{{ isSignUp ? 'Create an account to start shopping.' : 'Sign in to continue
+                shopping.' }}</p>
             <form (ngSubmit)="submit()">
                 <label *ngIf="isSignUp">Full name<input type="text" name="name" [(ngModel)]="name"
                         placeholder="Enter your name" autocomplete="name" required maxlength="100" /></label>
-                <label>Email address<input type="email" name="email" [(ngModel)]="email"
-                        placeholder="you@example.com" autocomplete="email" required maxlength="254" /></label>
+                <label *ngIf="isSignUp">Mobile number<input type="tel" name="mobileNumber" [(ngModel)]="mobileNumber"
+                        placeholder="Enter your mobile number" autocomplete="tel" required maxlength="20" /></label>
+                <label *ngIf="isSignUp">Account type
+                    <select name="accountRole" [(ngModel)]="accountRole">
+                        <option value="CUSTOMER">Customer</option>
+                        <option value="SHOPKEEPER">Shopkeeper (requires admin approval)</option>
+                    </select>
+                </label>
+
+                <label>Email address<input type="email" name="email" [(ngModel)]="email" placeholder="you@example.com"
+                        autocomplete="email" required maxlength="254" /></label>
                 <label>Password<input type="password" name="password" [(ngModel)]="password"
                         [placeholder]="isSignUp ? 'At least 8 characters' : 'Enter your password'"
                         [attr.autocomplete]="isSignUp ? 'new-password' : 'current-password'"

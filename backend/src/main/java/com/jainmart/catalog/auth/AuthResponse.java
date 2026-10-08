@@ -1,7 +1,7 @@
 package com.jainmart.catalog.auth;
 
-public record AuthResponse(String id, String name, String email, String role) {
+public record AuthResponse(String id, String name, String email, String role, boolean enabled) {
     public static AuthResponse from(UserAccount user) {
-        return new AuthResponse(user.getId(), user.getName(), user.getEmail(), user.getRole());
+        return new AuthResponse(user.getId(), user.getName(), user.getEmail(), user.getRole(), user.isEnabled());
     }
 }

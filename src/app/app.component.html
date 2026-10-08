@@ -1,23 +1,26 @@
 <app-login-page *ngIf="!isLoggedIn && !isCheckingSession" (loggedIn)="login($event)"></app-login-page>
 <main class="session-check" *ngIf="isCheckingSession" aria-live="polite">Checking your account...</main>
-<section class="manager-shell" *ngIf="isLoggedIn && isAdminUser">
+<section class="manager-shell" *ngIf="isLoggedIn && (isAdminUser || isShopkeeperUser)">
   <header class="manager-header"><a class="brand" href="#" aria-label="jain Mart home"><span
         class="brand-mark">J</span><span>jain <b>mart</b></span></a>
     <div class="manager-account"><span>{{ currentUser }}</span><button class="logout-button" type="button"
         (click)="logout()">Log out</button></div>
   </header>
   <main class="manager-main"><p class="session-message" role="alert" *ngIf="sessionMessage">{{ sessionMessage }}</p>
-    <span class="eyebrow">Admin workspace</span>
-    <h1>Manage your catalog.</h1>
-    <p>Add products and set the prices customers will see in Jain Mart.</p><app-product-manager
+    <span class="eyebrow">{{ isAdminUser ? 'Admin workspace' : 'Shopkeeper workspace' }}</span>
+    <h1>{{ isAdminUser ? 'Manage the marketplace.' : 'Manage your store.' }}</h1>
+    <span class="account-role">{{ isAdminUser ? 'ADMIN' : 'SHOPKEEPER' }} · {{ currentUser }}</span>
+    <p>{{ isAdminUser ? 'Manage shopkeeper access and inspect each store.' : 'Update only the products in your store.' }}</p><app-product-manager
+      *ngIf="isShopkeeperUser"
       [categories]="productCategories"
-      [products]="products"
+      [products]="managedProducts"
       (productCreated)="addProduct($event)"
       (productUpdated)="updateProduct($event)"
       (productDeleted)="removeProduct($event)"></app-product-manager>
+    <app-shopkeeper-manager *ngIf="isAdminUser"></app-shopkeeper-manager>
   </main>
 </section>
-<div class="app-shell" *ngIf="isLoggedIn">
+<div class="app-shell" *ngIf="isLoggedIn && isCustomerUser">
   <header class="site-header"><a class="brand" href="#top" aria-label="jain Mart home"><span
         class="brand-mark">J</span><span>jain <b>mart</b></span></a>
     <div class="delivery-note"><span class="pin">+</span><span><small>Delivering to</small><strong>Govardhan,
@@ -76,6 +79,7 @@
             <div class="product-footer"><strong>Rs. {{ product.price }}</strong><button type="button" class="add-button"
                 [class.added]="addedItemId === product.id" (click)="addItem(product)">{{ addedItemId === product.id ?
                 'Added' : '+ Add' }}</button></div>
+            <button type="button" class="product-detail-button" (click)="showProductDetail(product)">View details</button>
           </div>
         </article>
       </div>
@@ -137,6 +141,21 @@
             class="confirm-button" type="button" (click)="closeCheckout()">Continue shopping <span>-></span></button>
         </div>
       </ng-template>
+    </section>
+  </div>
+  <div class="checkout-overlay" *ngIf="selectedProduct">
+    <section class="checkout-modal product-detail-modal" role="dialog" aria-modal="true" aria-labelledby="product-detail-title">
+      <button class="checkout-close" type="button" (click)="closeProductDetail()" aria-label="Close product details">x</button>
+      <span class="eyebrow">Product details</span>
+      <p *ngIf="isLoadingProductDetail" role="status">Loading product details...</p>
+      <p class="checkout-error" *ngIf="productDetailMessage" role="alert">{{ productDetailMessage }}</p>
+      <ng-container *ngIf="!isLoadingProductDetail && selectedProduct">
+        <h2 id="product-detail-title">{{ selectedProduct.name }}</h2>
+        <p class="product-detail-category">{{ selectedProduct.category }} · {{ selectedProduct.unit }}</p>
+        <p>{{ selectedProduct.description }}</p>
+        <strong class="product-detail-price">Rs. {{ selectedProduct.price }}</strong>
+        <button class="confirm-button" type="button" (click)="addItem(selectedProduct); closeProductDetail()">Add to basket <span>-></span></button>
+      </ng-container>
     </section>
   </div>
   <footer><span>jain mart</span><span>Freshness, delivered.</span><span>Made for Govardhan</span></footer>

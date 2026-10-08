@@ -9,6 +9,7 @@ import { PeopleCounterComponent } from './components/people-counter/people-count
 import { PdfExportComponent } from './components/pdf-export/pdf-export.component';
 import { ProductManagerComponent } from './components/product-manager/product-manager.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
+import { ShopkeeperManagerComponent } from './components/shopkeeper-manager/shopkeeper-manager.component';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { LoginPageComponent } from './components/login-page/login-page.component
         PeopleCounterComponent,
         PdfExportComponent,
         ProductManagerComponent,
-        LoginPageComponent
+        LoginPageComponent,
+        ShopkeeperManagerComponent
     ],
     imports: [
         BrowserModule,

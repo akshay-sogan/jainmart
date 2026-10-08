@@ -27,16 +27,20 @@ public class Product {
     @Column(nullable = false, length = 40)
     private String unit;
 
+    @Column(name = "seller_id", length = 36)
+    private String sellerId;
+
     protected Product() {
     }
 
-    public Product(String id, String name, String category, String description, int price, String unit) {
+    public Product(String id, String name, String category, String description, int price, String unit, String sellerId) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.description = description;
         this.price = price;
         this.unit = unit;
+        this.sellerId = sellerId;
     }
 
     public String getId() {
@@ -61,5 +65,9 @@ public class Product {
 
     public String getUnit() {
         return unit;
+    }
+
+    public String getSellerId() {
+        return sellerId;
     }
 }

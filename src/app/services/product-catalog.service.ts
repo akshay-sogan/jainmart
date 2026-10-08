@@ -18,6 +18,17 @@ export class ProductCatalogService {
     return this.http.get<GlossaryItem[]>(this.productsUrl);
   }
 
+  getProduct(id: string): Observable<GlossaryItem> {
+    return this.http.get<GlossaryItem>(`${this.productsUrl}/${encodeURIComponent(id)}`);
+  }
+
+  getManagedProducts(shopkeeperId?: string): Observable<GlossaryItem[]> {
+    const url = shopkeeperId
+      ? `${this.productsUrl}/manage/${encodeURIComponent(shopkeeperId)}`
+      : `${this.productsUrl}/manage`;
+    return this.http.get<GlossaryItem[]>(url, { withCredentials: true });
+  }
+
   createProduct(product: NewProduct): Observable<GlossaryItem> {
     return this.http.post<GlossaryItem>(this.productsUrl, product, { withCredentials: true });
   }

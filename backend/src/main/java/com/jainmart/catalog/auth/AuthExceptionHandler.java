@@ -38,4 +38,10 @@ public class AuthExceptionHandler {
     public Map<String, String> handleManagerAccessRequired() {
         return Map.of("message", "Manager access is required to perform this action.");
     }
+
+    @ExceptionHandler(AccountNotApprovedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public Map<String, String> handleAccountNotApproved() {
+        return Map.of("message", "This account is disabled or awaiting admin activation. Please contact the administrator.");
+    }
 }

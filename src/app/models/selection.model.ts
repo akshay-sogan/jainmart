@@ -33,6 +33,7 @@ export interface GlossaryItem {
   description: string;
   price: number;
   unit: string;
+  sellerId?: string | null;
 }
 
 export interface CartItem {

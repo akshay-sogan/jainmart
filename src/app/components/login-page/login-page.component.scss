@@ -139,7 +139,8 @@
     text-transform: uppercase;
 }
 
-.login-form-wrap input {
+.login-form-wrap input,
+.login-form-wrap select {
     width: 100%;
     padding: 14px 12px;
     color: #193f32;
@@ -149,7 +150,8 @@
     font: 14px 'Trebuchet MS', sans-serif;
 }
 
-.login-form-wrap input:focus {
+.login-form-wrap input:focus,
+.login-form-wrap select:focus {
     border-color: #ef704f;
 }
 

@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { AuthUser } from '../../models/auth.model';
 import { AuthService } from '../../services/auth.service';
+import { SelectionService } from '../../services/selection.service';
 
 @Component({
   selector: 'app-login-page',
@@ -13,24 +14,58 @@ export class LoginPageComponent {
 
   name = '';
   email = '';
+  mobileNumber = '';
   password = '';
+  accountRole: 'CUSTOMER' | 'SHOPKEEPER' = 'CUSTOMER';
   message = '';
   isSignUp = false;
   isSubmitting = false;
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private selectionService: SelectionService
+  ) { }
 
   submit(): void {
     this.message = '';
     this.isSubmitting = true;
-    const request = this.isSignUp
-      ? this.authService.signUp(this.name.trim(), this.email.trim(), this.password)
+    const signingUp = this.isSignUp;
+    const request = signingUp
+      ? this.authService.signUp(
+        this.name.trim(),
+        this.email.trim(),
+        this.password,
+        this.mobileNumber.trim(),
+        this.accountRole
+      )
       : this.authService.signIn(this.email.trim(), this.password);
 
     request.subscribe({
       next: (user) => {
         this.isSubmitting = false;
-        this.loggedIn.emit(user);
+        if (signingUp) {
+          window.localStorage.clear();
+          this.selectionService.clearCart();
+          this.selectionService.setCustomerDetails({ name: '', phone: '', address: '' });
+          this.isSignUp = false;
+          this.name = '';
+          this.email = '';
+          this.mobileNumber = '';
+          this.password = '';
+          this.accountRole = 'CUSTOMER';
+          this.message = user.role === 'SHOPKEEPER'
+            ? 'Your SHOPKEEPER account was created. Sign in after an admin activates it.'
+            : 'Your CUSTOMER account was created. Please sign in.';
+          return;
+        }
+
+        if (user.enabled) {
+          this.loggedIn.emit(user);
+        } else {
+          this.message = user.role === 'SHOPKEEPER'
+            ? 'Your SHOPKEEPER account is waiting for admin activation.'
+            : 'Your account is not active. Please contact the administrator.';
+        }
       },
       error: (error: HttpErrorResponse) => {
         this.isSubmitting = false;
@@ -45,6 +80,11 @@ export class LoginPageComponent {
 
   toggleMode(): void {
     this.isSignUp = !this.isSignUp;
+    this.accountRole = 'CUSTOMER';
+    this.name = '';
+    this.email = '';
+    this.mobileNumber = '';
+    this.password = '';
     this.message = '';
   }
 }

@@ -50,6 +50,16 @@
     font-size: 15px;
 }
 
+.account-role {
+    display: inline-block;
+    margin: 8px 0 14px;
+    padding: 7px 10px;
+    color: #193f32;
+    background: #f3ead2;
+    font: 700 10px 'Trebuchet MS', sans-serif;
+    letter-spacing: .08em;
+}
+
 .manager-main app-product-manager {
     display: block;
     margin-top: 42px;
@@ -490,6 +500,38 @@
 .add-button.added {
     color: #fff;
     background: #ef704f;
+}
+
+.product-detail-button {
+    margin-top: 14px;
+    padding: 0;
+    color: #193f32;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid #9ba99d;
+    font: 700 11px 'Trebuchet MS', sans-serif;
+}
+
+.product-detail-modal>p {
+    color: #75877a;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.product-detail-category {
+    margin: 0;
+    color: #ef704f !important;
+    font-weight: 700;
+}
+
+.product-detail-price {
+    display: block;
+    margin: 20px 0;
+    font: 700 22px Georgia, serif;
+}
+
+.product-detail-modal .confirm-button {
+    width: 100%;
 }
 
 .empty-state {

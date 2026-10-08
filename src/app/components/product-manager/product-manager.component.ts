@@ -108,7 +108,7 @@ export class ProductManagerComponent {
                 this.message = error.status === 404
                     ? 'This product no longer exists. Refresh the catalog and try again.'
                     : error.status
-                        ? 'Product could not be deleted. Check your admin access and try again.'
+                        ? 'Product could not be deleted. Check your account access and try again.'
                         : 'Catalog API is unavailable. Start the backend and try again.';
             }
         });

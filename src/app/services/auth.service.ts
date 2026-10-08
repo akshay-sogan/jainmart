@@ -16,8 +16,18 @@ export class AuthService {
     return this.http.post<AuthUser>(`${this.authUrl}/signin`, { email, password }, { withCredentials: true });
   }
 
-  signUp(name: string, email: string, password: string): Observable<AuthUser> {
-    return this.http.post<AuthUser>(`${this.authUrl}/signup`, { name, email, password }, { withCredentials: true });
+  signUp(
+    name: string,
+    email: string,
+    password: string,
+    mobileNumber: string,
+    role: 'CUSTOMER' | 'SHOPKEEPER'
+  ): Observable<AuthUser> {
+    return this.http.post<AuthUser>(
+      `${this.authUrl}/signup`,
+      { name, email, password, mobileNumber, role },
+      { withCredentials: true }
+    );
   }
 
   currentUser(): Observable<AuthUser> {

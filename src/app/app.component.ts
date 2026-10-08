@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   title = 'jain Mart';
   isLoggedIn = false;
   isCheckingSession = true;
+  currentUserId = '';
   currentUser = '';
   currentRole = '';
   sessionMessage = '';
@@ -30,6 +31,10 @@ export class AppComponent implements OnInit {
   catalogMessage = '';
   isLoadingProducts = true;
   products: GlossaryItem[] = [];
+  managedProducts: GlossaryItem[] = [];
+  selectedProduct: GlossaryItem | null = null;
+  productDetailMessage = '';
+  isLoadingProductDetail = false;
 
   constructor(
     public selectionService: SelectionService,
@@ -61,10 +66,15 @@ export class AppComponent implements OnInit {
   }
 
   login(user: AuthUser): void {
+    this.managedProducts = [];
+    this.currentUserId = user.id;
     this.currentUser = user.name;
     this.currentRole = user.role;
     this.isLoggedIn = true;
     this.isCheckingSession = false;
+    if (this.isAdminUser || this.isShopkeeperUser) {
+      this.loadManagedProducts();
+    }
   }
 
   logout(): void {
@@ -77,7 +87,9 @@ export class AppComponent implements OnInit {
   private clearSession(): void {
     this.sessionMessage = '';
     this.currentUser = '';
+    this.currentUserId = '';
     this.currentRole = '';
+    this.managedProducts = [];
     this.isLoggedIn = false;
     this.isCheckingSession = false;
     this.cartOpen = false;
@@ -85,6 +97,26 @@ export class AppComponent implements OnInit {
 
   get isAdminUser(): boolean {
     return this.currentRole === 'ADMIN';
+  }
+
+  get isShopkeeperUser(): boolean {
+    return this.currentRole === 'SHOPKEEPER';
+  }
+
+  get isCustomerUser(): boolean {
+    return this.currentRole === 'CUSTOMER';
+  }
+
+  loadManagedProducts(): void {
+    this.managedProducts = [];
+    const shopkeeperId = this.isShopkeeperUser ? this.currentUserId : undefined;
+    this.productCatalog.getManagedProducts(shopkeeperId).subscribe({
+      next: (products) => this.managedProducts = products,
+      error: () => {
+        this.managedProducts = [];
+        this.sessionMessage = 'Your store products could not be loaded. Check your access and try again.';
+      }
+    });
   }
 
   get categories(): string[] {
@@ -156,15 +188,39 @@ export class AppComponent implements OnInit {
     this.orderPlaced = false;
   }
   addProduct(product: GlossaryItem): void {
-    this.products = [product, ...this.products];
+    this.managedProducts = [product, ...this.managedProducts];
+    this.loadProducts();
     this.activeCategory = 'All';
   }
 
   updateProduct(product: GlossaryItem): void {
-    this.products = this.products.map((current) => current.id === product.id ? product : current);
+    this.managedProducts = this.managedProducts.map((current) => current.id === product.id ? product : current);
+    this.loadProducts();
   }
 
   removeProduct(productId: string): void {
-    this.products = this.products.filter((product) => product.id !== productId);
+    this.managedProducts = this.managedProducts.filter((product) => product.id !== productId);
+    this.loadProducts();
+  }
+
+  showProductDetail(product: GlossaryItem): void {
+    this.selectedProduct = product;
+    this.productDetailMessage = '';
+    this.isLoadingProductDetail = true;
+    this.productCatalog.getProduct(product.id).subscribe({
+      next: (details) => {
+        this.selectedProduct = details;
+        this.isLoadingProductDetail = false;
+      },
+      error: () => {
+        this.isLoadingProductDetail = false;
+        this.productDetailMessage = 'Product details could not be loaded. Please try again.';
+      }
+    });
+  }
+
+  closeProductDetail(): void {
+    this.selectedProduct = null;
+    this.productDetailMessage = '';
   }
 }
