@@ -9,18 +9,27 @@
     </section>
     <section class="login-panel">
         <div class="login-form-wrap">
-            <span class="eyebrow">Welcome back</span>
-            <h2>Sign in to Jain Mart</h2>
-            <p class="login-intro">Sign in to shop groceries and manage your catalog.</p>
-            <form (ngSubmit)="login()">
-                <label>User ID<input type="text" name="userId" [(ngModel)]="userId" placeholder="Enter your user ID"
-                        autocomplete="username" /></label>
+            <span class="eyebrow">{{ isSignUp ? 'Join jain mart' : 'Welcome back' }}</span>
+            <h2>{{ isSignUp ? 'Create your account' : 'Sign in to Jain Mart' }}</h2>
+            <p class="login-intro">{{ isSignUp ? 'Create an account to start shopping.' : 'Sign in to continue shopping.' }}</p>
+            <form (ngSubmit)="submit()">
+                <label *ngIf="isSignUp">Full name<input type="text" name="name" [(ngModel)]="name"
+                        placeholder="Enter your name" autocomplete="name" required maxlength="100" /></label>
+                <label>Email address<input type="email" name="email" [(ngModel)]="email"
+                        placeholder="you@example.com" autocomplete="email" required maxlength="254" /></label>
                 <label>Password<input type="password" name="password" [(ngModel)]="password"
-                        placeholder="Enter your password" autocomplete="current-password" /></label>
+                        [placeholder]="isSignUp ? 'At least 8 characters' : 'Enter your password'"
+                        [attr.autocomplete]="isSignUp ? 'new-password' : 'current-password'"
+                        [attr.minlength]="isSignUp ? 8 : null" required maxlength="72" /></label>
                 <p class="login-message" *ngIf="message">{{ message }}</p>
-                <button class="login-button" type="submit">Continue <span>-></span></button>
+                <button class="login-button" type="submit" [disabled]="isSubmitting">
+                    {{ isSubmitting ? 'Please wait...' : (isSignUp ? 'Create account' : 'Sign in') }} <span>-></span>
+                </button>
             </form>
-            <small class="login-note">Use your registered account to continue.</small>
+            <button class="auth-toggle" type="button" (click)="toggleMode()" [disabled]="isSubmitting">
+                {{ isSignUp ? 'Already have an account? Sign in' : 'New to jain mart? Create an account' }}
+            </button>
+            <small class="login-note">Your password is securely encrypted before storage.</small>
         </div>
     </section>
 </main>

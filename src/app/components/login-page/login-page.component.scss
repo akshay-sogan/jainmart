@@ -164,6 +164,21 @@
     font: 700 13px 'Trebuchet MS', sans-serif;
 }
 
+.login-button:disabled {
+    cursor: wait;
+    opacity: .7;
+}
+
+.auth-toggle {
+    margin-top: 20px;
+    padding: 0;
+    color: #193f32;
+    background: none;
+    border: 0;
+    font: 700 12px 'Trebuchet MS', sans-serif;
+    cursor: pointer;
+}
+
 .login-button span {
     color: #f5bb58;
     font-size: 18px;

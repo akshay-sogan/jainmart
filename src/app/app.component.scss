@@ -968,3 +968,20 @@ footer span:first-child {
         bottom: 25px;
     }
 }
+:host {
+  display: block;
+}
+
+.session-check {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  color: #193f32;
+  background: #fbfaf5;
+  font: 14px 'Trebuchet MS', sans-serif;
+}
+
+.session-message {
+    color: #c14b37;
+    font-size: 12px;
+}

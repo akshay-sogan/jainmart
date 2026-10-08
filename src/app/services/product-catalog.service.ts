@@ -19,6 +19,6 @@ export class ProductCatalogService {
   }
 
   createProduct(product: NewProduct): Observable<GlossaryItem> {
-    return this.http.post<GlossaryItem>(this.productsUrl, product);
+    return this.http.post<GlossaryItem>(this.productsUrl, product, { withCredentials: true });
   }
 }

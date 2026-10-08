@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AuthUser } from './models/auth.model';
+import { AuthService } from './services/auth.service';
 import { GlossaryItem } from './models/selection.model';
 import { ProductCatalogService } from './services/product-catalog.service';
 import { SelectionService } from './services/selection.service';
@@ -12,7 +14,10 @@ import { SelectionService } from './services/selection.service';
 export class AppComponent implements OnInit {
   title = 'jain Mart';
   isLoggedIn = false;
+  isCheckingSession = true;
   currentUser = '';
+  currentRole = '';
+  sessionMessage = '';
   searchTerm = '';
   activeCategory = 'All';
   cartOpen = false;
@@ -33,10 +38,15 @@ export class AppComponent implements OnInit {
   constructor(
     public selectionService: SelectionService,
     private http: HttpClient,
-    private productCatalog: ProductCatalogService
+    private productCatalog: ProductCatalogService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
+    this.authService.currentUser().subscribe({
+      next: (user) => this.login(user),
+      error: () => this.isCheckingSession = false
+    });
     this.productCatalog.getProducts().subscribe({
       next: (products) => this.products = products,
       error: () => {
@@ -49,19 +59,31 @@ export class AppComponent implements OnInit {
     });
   }
 
-  login(userId: string): void {
-    this.currentUser = userId; 
+  login(user: AuthUser): void {
+    this.currentUser = user.name;
+    this.currentRole = user.role;
     this.isLoggedIn = true;
+    this.isCheckingSession = false;
   }
 
   logout(): void {
+    this.authService.signOut().subscribe({
+      next: () => this.clearSession(),
+      error: () => this.sessionMessage = 'Could not sign out. Please check your connection and try again.'
+    });
+  }
+
+  private clearSession(): void {
+    this.sessionMessage = '';
     this.currentUser = '';
+    this.currentRole = '';
     this.isLoggedIn = false;
+    this.isCheckingSession = false;
     this.cartOpen = false;
   }
 
   get isManagerUser(): boolean {
-    return this.currentUser.toLowerCase() === 'chintu.sogani';
+    return this.currentRole === 'ADMIN';
   }
 
   get filteredProducts(): GlossaryItem[] {

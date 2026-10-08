@@ -3,6 +3,12 @@ package com.jainmart.catalog.product;
 import java.util.List;
 import java.util.UUID;
 
+import com.jainmart.catalog.auth.AuthenticationRequiredException;
+import com.jainmart.catalog.auth.ManagerAccessRequiredException;
+import com.jainmart.catalog.auth.UserAccount;
+import com.jainmart.catalog.auth.UserAccountRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/products")
 public class ProductController {
     private final ProductRepository products;
+    private final UserAccountRepository users;
 
-    public ProductController(ProductRepository products) {
+    public ProductController(ProductRepository products, UserAccountRepository users) {
         this.products = products;
+        this.users = users;
     }
 
     @GetMapping
@@ -28,7 +36,20 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Product createProduct(@Valid @RequestBody ProductRequest request) {
+    public Product createProduct(@Valid @RequestBody ProductRequest request, HttpServletRequest httpRequest) {
+        HttpSession session = httpRequest.getSession(false);
+        if (session == null) {
+            throw new AuthenticationRequiredException();
+        }
+        Object userId = session.getAttribute("userId");
+        if (!(userId instanceof String)) {
+            throw new AuthenticationRequiredException();
+        }
+        UserAccount user = users.findById((String) userId).orElseThrow(AuthenticationRequiredException::new);
+        if (!"ADMIN".equals(user.getRole())) {
+            throw new ManagerAccessRequiredException();
+        }
+
         Product product = new Product(
                 UUID.randomUUID().toString(),
                 request.name().trim(),

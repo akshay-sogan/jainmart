@@ -1,11 +1,13 @@
-<app-login-page *ngIf="!isLoggedIn" (loggedIn)="login($event)"></app-login-page>
+<app-login-page *ngIf="!isLoggedIn && !isCheckingSession" (loggedIn)="login($event)"></app-login-page>
+<main class="session-check" *ngIf="isCheckingSession" aria-live="polite">Checking your account...</main>
 <section class="manager-shell" *ngIf="isLoggedIn && isManagerUser">
   <header class="manager-header"><a class="brand" href="#" aria-label="jain Mart home"><span
         class="brand-mark">J</span><span>jain <b>mart</b></span></a>
     <div class="manager-account"><span>{{ currentUser }}</span><button class="logout-button" type="button"
         (click)="logout()">Log out</button></div>
   </header>
-  <main class="manager-main"><span class="eyebrow">Admin workspace</span>
+  <main class="manager-main"><p class="session-message" role="alert" *ngIf="sessionMessage">{{ sessionMessage }}</p>
+    <span class="eyebrow">Admin workspace</span>
     <h1>Manage your catalog.</h1>
     <p>Add products and set the prices customers will see in Jain Mart.</p><app-product-manager
       (productCreated)="addProduct($event)"></app-product-manager>
@@ -21,6 +23,7 @@
         }}</span></button>
   </header>
   <main id="top">
+    <p class="session-message container" role="alert" *ngIf="sessionMessage">{{ sessionMessage }}</p>
     <section class="hero container">
       <div class="hero-copy"><span class="eyebrow">Groceries at your doorstep</span>
         <h1>Fresh picks.<br /><em>Fast delivery.</em></h1>
