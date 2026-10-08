@@ -1,10 +1,10 @@
 <section class="product-manager">
     <div class="manager-intro">
         <span class="eyebrow">Store manager</span>
-        <h2>Add a product</h2>
+        <h2>{{ editingProductId ? 'Edit product' : 'Add a product' }}</h2>
         <p>Keep the jain Mart catalog fresh with your own products and prices.</p>
     </div>
-    <form class="product-form" (ngSubmit)="addProduct()">
+    <form class="product-form" (ngSubmit)="saveProduct()">
         <label>
             Product name
             <input type="text" name="productName" [(ngModel)]="productName" placeholder="e.g. Green apples" required />
@@ -32,8 +32,28 @@
             <input type="text" name="description" [(ngModel)]="description"
                 placeholder="A little detail shoppers will appreciate" />
         </label>
-        <button type="submit" class="manager-submit" [disabled]="saving">{{ saving ? 'Saving...' : 'Add to catalog' }}
-            <span *ngIf="!saving">+</span></button>
+        <div class="form-actions">
+            <button type="submit" class="manager-submit" [disabled]="saving">
+                {{ saving ? 'Saving...' : (editingProductId ? 'Save changes' : 'Add to catalog') }}
+            </button>
+            <button *ngIf="editingProductId" type="button" class="manager-cancel" [disabled]="saving"
+                (click)="cancelEdit()">Cancel</button>
+        </div>
     </form>
     <p class="manager-message" *ngIf="message">{{ message }}</p>
+</section>
+<section class="catalog-manager" aria-label="Product catalog management">
+    <h2>Products</h2>
+    <p *ngIf="products.length === 0">No products are available to edit.</p>
+    <ul *ngIf="products.length > 0">
+        <li *ngFor="let product of products">
+            <span><strong>{{ product.name }}</strong><small>{{ product.category }} · Rs. {{ product.price }} / {{
+                    product.unit }}</small></span>
+            <span class="product-actions">
+                <button type="button" [disabled]="saving" (click)="editProduct(product)">Edit</button>
+                <button type="button" class="delete-product" [disabled]="saving"
+                    (click)="deleteProduct(product)">Delete</button>
+            </span>
+        </li>
+    </ul>
 </section>

@@ -157,7 +157,14 @@ export class AppComponent implements OnInit {
   }
   addProduct(product: GlossaryItem): void {
     this.products = [product, ...this.products];
-    this.products = [product, ...this.products];
     this.activeCategory = 'All';
+  }
+
+  updateProduct(product: GlossaryItem): void {
+    this.products = this.products.map((current) => current.id === product.id ? product : current);
+  }
+
+  removeProduct(productId: string): void {
+    this.products = this.products.filter((product) => product.id !== productId);
   }
 }

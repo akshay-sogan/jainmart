@@ -102,8 +102,15 @@ characters and no more than 72 UTF-8 bytes). New accounts have the `CUSTOMER` ro
 authenticated account with the `ADMIN` role. To grant catalog manager access,
 promote a trusted account directly in the database with
 `UPDATE users SET role = 'ADMIN' WHERE email = 'trusted@example.com';`; do not expose
-public role assignment. Angular sends the session cookie when creating products and
-signing out.
+public role assignment. Product creation, updates, and deletion require an authenticated
+account with the `ADMIN` role. Use `POST /api/products` to add a product,
+`PUT /api/products/{id}` to replace an existing product's name, category, description,
+price, and unit, and `DELETE /api/products/{id}` to remove a product. Create and update
+accept a JSON body with those five fields; update and delete return `404 Not Found` when
+the product id does not exist. All three return `401 Unauthorized` without a session and
+`403 Forbidden` for non-admin accounts. The Angular admin catalog supports adding,
+editing, and deleting products, and sends the session cookie for product changes.
+Angular also sends the session cookie when signing out.
 
 For example, sign-up returns `201 Created` with the user id, name, email, and role;
 sign-in returns `200 OK` with the same response shape. Invalid credentials return

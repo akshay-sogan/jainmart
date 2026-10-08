@@ -21,4 +21,16 @@ export class ProductCatalogService {
   createProduct(product: NewProduct): Observable<GlossaryItem> {
     return this.http.post<GlossaryItem>(this.productsUrl, product, { withCredentials: true });
   }
+
+  updateProduct(id: string, product: NewProduct): Observable<GlossaryItem> {
+    return this.http.put<GlossaryItem>(`${this.productsUrl}/${encodeURIComponent(id)}`, product, {
+      withCredentials: true
+    });
+  }
+
+  deleteProduct(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.productsUrl}/${encodeURIComponent(id)}`, {
+      withCredentials: true
+    });
+  }
 }

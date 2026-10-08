@@ -11,7 +11,10 @@
     <h1>Manage your catalog.</h1>
     <p>Add products and set the prices customers will see in Jain Mart.</p><app-product-manager
       [categories]="productCategories"
-      (productCreated)="addProduct($event)"></app-product-manager>
+      [products]="products"
+      (productCreated)="addProduct($event)"
+      (productUpdated)="updateProduct($event)"
+      (productDeleted)="removeProduct($event)"></app-product-manager>
   </main>
 </section>
 <div class="app-shell" *ngIf="isLoggedIn">
