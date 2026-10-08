@@ -59,35 +59,39 @@ ng serve
 ```
 Then open your browser and navigate to `http://localhost:4200`.
 
-## MySQL catalog and Java API
+## Docker
 
-The Spring Boot catalog API stores products in MySQL. Docker Compose starts both services,
-and Flyway creates and seeds the product table on the API's first startup.
+Docker Compose runs the Angular app, Spring Boot API, and MySQL database. Flyway
+creates and seeds the database schema on the API's first startup.
 
 1. Install Docker Desktop and start it.
-2. From the project root, start MySQL and the Java API:
+2. From the project root, build and start the full application:
    ```
    docker compose up --build
    ```
-   Keep this running. The API listens on `http://localhost:8080`; its database
-   schema is created by Flyway on startup. If the API container was already
-   running before backend changes, rebuild and recreate it with
-   `docker compose up --build --force-recreate api`.
-3. In another terminal, start Angular:
+3. Open `http://localhost` to use the application. The API is also available
+   directly at `http://localhost:8080/api/products`.
+4. To stop the containers, press Ctrl+C and run:
    ```
-   npm start
+   docker compose down
    ```
-   Angular proxies `/api` requests to the backend, so the browser can use the
-   same API path without cross-origin cookie/CORS issues during development.
-4. Open `http://localhost:4200`. The API is available at
-   `http://localhost:8080/api/products` (`GET` lists products; `POST` adds one).
+   Database files persist in the `mysql-data` volume. To also delete the local
+   database, run `docker compose down --volumes`.
 
-The API requires Java 17 and Spring Boot and can also be run locally with Maven:
-start MySQL with `docker compose up db`, then run `mvn spring-boot:run` from `backend`.
+Set `MYSQL_PASSWORD` and `MYSQL_ROOT_PASSWORD` in the environment before starting
+Compose to override the local-development database credentials. The defaults in
+Compose are for local development only.
+
+## Local development
+
+To run Angular outside Docker, start MySQL and the API with
+`docker compose up db api`, then run `npm start` in another terminal and open
+`http://localhost:4200`. The Angular development server proxies `/api` requests
+to the API. The API can also be run locally with Java 17 and Maven using
+`mvn spring-boot:run` from `backend`.
 Configure database settings with `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_DATABASE`,
 `MYSQL_USER`, and `MYSQL_PASSWORD`; `CORS_ALLOWED_ORIGINS` controls permitted
-browser origins. The compose credentials are for local development only. Set
-`MYSQL_PASSWORD` and `MYSQL_ROOT_PASSWORD` to strong values outside local development.
+browser origins.
 The production Angular build uses the same-origin `/api` path, so configure your
 production reverse proxy to route `/api` to the Java API. Account creation and sign-in
 are available at `POST /api/auth/signup` (`name`, `email`, `password`) and
