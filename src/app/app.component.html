@@ -1,6 +1,6 @@
 <app-login-page *ngIf="!isLoggedIn && !isCheckingSession" (loggedIn)="login($event)"></app-login-page>
 <main class="session-check" *ngIf="isCheckingSession" aria-live="polite">Checking your account...</main>
-<section class="manager-shell" *ngIf="isLoggedIn && isManagerUser">
+<section class="manager-shell" *ngIf="isLoggedIn && isAdminUser">
   <header class="manager-header"><a class="brand" href="#" aria-label="jain Mart home"><span
         class="brand-mark">J</span><span>jain <b>mart</b></span></a>
     <div class="manager-account"><span>{{ currentUser }}</span><button class="logout-button" type="button"

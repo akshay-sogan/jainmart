@@ -41,7 +41,7 @@ public class ProductController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Product createProduct(@Valid @RequestBody ProductRequest request, HttpServletRequest httpRequest) {
-        requireManager(httpRequest);
+        requireAdmin(httpRequest);
 
         Product product = new Product(
                 UUID.randomUUID().toString(),
@@ -60,7 +60,7 @@ public class ProductController {
             @Valid @RequestBody ProductRequest request,
             HttpServletRequest httpRequest
     ) {
-        requireManager(httpRequest);
+        requireAdmin(httpRequest);
         if (!products.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found.");
         }
@@ -79,14 +79,14 @@ public class ProductController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable String id, HttpServletRequest httpRequest) {
-        requireManager(httpRequest);
+        requireAdmin(httpRequest);
         if (!products.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found.");
         }
         products.deleteById(id);
     }
 
-    private void requireManager(HttpServletRequest httpRequest) {
+    private void requireAdmin(HttpServletRequest httpRequest) {
         HttpSession session = httpRequest.getSession(false);
         if (session == null) {
             throw new AuthenticationRequiredException();

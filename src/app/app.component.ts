@@ -83,7 +83,7 @@ export class AppComponent implements OnInit {
     this.cartOpen = false;
   }
 
-  get isManagerUser(): boolean {
+  get isAdminUser(): boolean {
     return this.currentRole === 'ADMIN';
   }
 
